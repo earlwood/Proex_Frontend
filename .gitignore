@@ -1,0 +1,37 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+package-lock.json
+
+# testing
+/coverage
+
+# production
+/build
+build.zip
+REACT.md
+README.md
+migration.md
+ISSUE_TEMPLATE.md
+CHANGELOG.md
+LICENSE
+
+
+# misc
+.eslintcache
+.DS_Store
+.idea
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#Duplicated-pages
+src/views/pages/login/Login copy.js
+src/views/dashboard/Dashboard copy.js
+src/reusable/VentaForm copy.js
