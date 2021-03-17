@@ -17,7 +17,8 @@ import {
     CLabel,
     CRow,
     CSelect,
-    CTextarea
+    CTextarea,
+    CHeaderBrand
 
   } from '@coreui/react';
 import axios from 'axios';
@@ -26,6 +27,8 @@ import {useHistory} from 'react-router-dom';
 
 import VentaForm from 'src/reusable/VentaForm';
 import {configHeaders} from 'src/reusable/util';
+import logoProex from 'src/assets/icons/logo-proex_claro-horizontal.png';
+import CIcon from '@coreui/icons-react';
 let statusList = ['Seleccione', 'Entregado', 'Pendiente'];
 
 const VentasTodas = (props) =>{
@@ -39,6 +42,35 @@ const VentasTodas = (props) =>{
     const [ store, setStore ] = useState(JSON.parse(localStorage.getItem('login')));
     const [errors, setErrors] = useState('');
     const [isSubmited, setIsSubmited] = useState(false);
+
+    const sendEmail = () =>{
+        
+        var EmailTemplate = require('email-templates').EmailTemplate;
+        var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+
+        // create template based sender function
+        // assumes text.{ext} and html.{ext} in template/directory
+        var sendPwdReminder = transporter.templateSender(new EmailTemplate('template/directory'), {
+            from: 'sender@example.com',
+        });
+
+        // use template based sender to send a message
+        sendPwdReminder({
+            to: 'receiver@example.com',
+            // EmailTemplate renders html and text but no subject so we need to
+            // set it manually either here or in the defaults section of templateSender()
+            subject: 'Password reminder'
+        }, {
+            username: 'Node Mailer',
+            password: '!"\'<>&some-thing'
+        }, function(err, info){
+            if(err){
+            console.log('Error');
+            }else{
+                console.log('Password reminder sent');
+            }
+        });
+    }
     
 
     const Add = statusList.map(Add => Add);
@@ -122,6 +154,8 @@ const VentasTodas = (props) =>{
     const [details, setDetails] = useState([]);
     const [danger, setDanger] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
+    const [modalFactura, setModalFactura] = useState(false);
+
     // const [isValid, setIsValid] = useState(false);
     
 
@@ -144,6 +178,27 @@ const VentasTodas = (props) =>{
         Notes: '',
         Estatus: ''
     });
+
+        //State de Layout Factura
+        const [factura, setFactura] = useState({
+            Date_Arrival: '',
+            idClientes_Informacion: 0,
+            Real_Weight: '',
+            Vol_Weight: '',
+            Total_Weight: '',
+            Total_RW: '',
+            Total_Vol_W: '',
+            Total: '',
+            Paid: '',
+            Internal_Cost_Percentage: '',
+            Cost_x_Lb: '',
+            Total_Cost: '',
+            Revenue: '',
+            Percentage: '',
+            Notes: '',
+            Estatus: ''
+        });
+
     ////States del Modal
     const resetForm = () =>{
         setVentaForm({
@@ -167,6 +222,8 @@ const VentasTodas = (props) =>{
 
         setIsSubmited(false);
         setModalEdit(!modalEdit);
+        setModalFactura(!modalFactura);
+
     }
 
     const { 
@@ -475,6 +532,37 @@ const VentasTodas = (props) =>{
                 
     }
 
+    const ModalGenerarFactura = (id) =>{
+        setIdVenta(id);
+        
+        
+        axios.get(`${process.env.REACT_APP_BASE_URL}/selectVenta/${id}`)
+            .then((res) => {
+                setModalFactura(!modalFactura);
+                res.data[0].map((i) => {
+                    return setFactura({
+                        Date_Arrival: i.Date_Arrival.substring(0,10),
+                        idClientes_Informacion: i.idClientes_Informacion,
+                        Real_Weight: i.Real_Weight,
+                        Vol_Weight: i.Vol_Weight,
+                        Total_Weight: i.Total_Weight,
+                        Total_RW: i.Total_RW,
+                        Total_Vol_W: i.Total_Vol_W,
+                        Total: i.Total,
+                        Paid: i.Paid,
+                        Internal_Cost_Percentage: i.Internal_Cost_Percentage,
+                        Cost_x_Lb: i.Cost_x_Lb,
+                        Total_Cost: i.Total_Cost,
+                        Revenue: i.Revenue,
+                        Percentage: i.Percentage,
+                        Notes: i.Notes,
+                        Estatus: i.Estatus
+                    });
+                })
+            })
+                
+    }
+
     return (
         <div>    
             {/* Modal Venta nueva */}
@@ -699,6 +787,226 @@ const VentasTodas = (props) =>{
             </CModal>
 
 
+            {/* Modal Generar Factura */}
+            <CModal show={modalFactura} size="lg">
+                <CModalHeader closeButton>
+                    <CModalTitle>Factura de Venta</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <CRow>
+                        <CCol xs="12" sm="12">
+                            <CCard>
+                                <CCardBody>
+                                {/* Header Factura */}
+                                <CRow>
+                                    <CCol md="2">
+                                          
+                                        <CIcon name="logo" height="75" alt="Logo" src={logoProex}/>
+
+                                    </CCol>
+                                    <CCol md="6">
+
+                                    <CCol md="12">
+
+                                        <b><CLabel>  ProEx - S.A de C.V.</CLabel></b>
+                                    
+                                    </CCol>
+
+                                        <CCol md="12">
+                                            
+                                        234/90, New York Street
+                                    
+
+                                        </CCol>
+                                        <CCol md="12">
+                                            
+                                            United States.                                        
+    
+                                        </CCol>
+
+                                    </CCol>
+
+                                    <CCol md="4">
+
+                                        <CLabel xs="12" sm="12">
+                                        
+                                            <CCol md="12">
+                                                
+                                                Tel.+456-345-908-559                                 
+
+                                            </CCol>   
+                                            <CCol md="12">
+                                                
+                                                Email. info@obedalvarado.pw                                    
+
+                                            </CCol>
+
+                                        </CLabel>
+                                     
+                                    </CCol>
+                                    {/* =================== */}
+
+                                    {/*Body Factura */}        
+
+                                    <CCol md="12">
+                                        <hr/>
+                                    </CCol>
+
+                                    <CCol md="6">
+                                        <CLabel xs="12" sm="12">
+                                            <h2><b>FACTURA</b></h2>
+                                        </CLabel>
+                                        
+                                    </CCol>
+                                    <CCol md="6">
+                                        
+                                        <CCol md="12">
+                             
+                                        <CLabel xs="12" sm="12">
+                                            <b>Fecha:</b>
+                                        </CLabel>
+
+                                        </CCol>
+                       
+                                        <CCol md="12">
+                             
+                                        <CLabel xs="12" sm="12">
+                                            <b>Factura #:</b>
+                                        </CLabel>
+
+                                        </CCol>
+                                        <CCol md="12">
+                                
+                                            <CLabel xs="12" sm="12">
+                                                <b>Vencimiento:</b>
+                                            </CLabel>
+
+                                        </CCol>
+
+                                    </CCol>
+
+                                    <CCol md="6" Style={"margin-top:20px;"}>
+                                        <CLabel xs="12" sm="12">
+                                            <b>Facturar a:</b>
+                                        </CLabel>
+                                        
+                                    </CCol>
+                                    <CCol md="6" Style={"margin-top:20px;"}>
+                                        <CLabel xs="12" sm="12">
+                                            <b>Enviar a:</b>
+                                        </CLabel>
+                                        
+                                    </CCol>
+                          
+
+                                    {/* =================== */}
+
+                                                
+                                </CRow>
+
+                                <CRow Style={"margin-top:20px;"}>
+                                <CCol md="12">
+
+                                
+                                    <table Style={"width:100%;border: 1px solid #ddd;"}>
+                                        <thead Style={"border-bottom: 1px solid #ddd;"}>
+                                        <tr>
+                                        <th width="25%">Vendedor</th>
+                                        <th width="25%">Orden de compra </th>
+                                        <th width="20%">Enviar por</th>
+                                        <th width="30%">Términos y condiciones</th>
+                                        </tr> 
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                        <td width="25%">John Doe</td>
+                                        <td width="25%">#PO-2020 </td>
+                                        <td width="20%">DHL</td>
+                                        <td width="30%">Pago al contado</td>
+                                        </tr>
+                                        </tbody>
+                                        </table>
+                                   
+
+                                    </CCol>
+                                </CRow>
+                         
+                                <CRow Style={"margin-top:20px;"}>
+
+                                <CCol md="12">
+
+                                
+                                <table Style={"width:100%"}>
+                                    <thead Style={"border-bottom: 1px solid black;"}>
+                                    <th width="5%" Style={"text-align:center"}>Código</th>
+                                    <th width="60%" Style={"text-align:center"}>Descripción</th>
+                                    
+                                    <th width="5%" Style={"text-align:center"}>Cant.</th>
+                                    <th width="15%" Style={"text-align:center"}>Precio</th>
+                                    <th class="taxrelated" Style={"text-align:center"}>IVA</th>
+                                    <th width="10%" Style={"text-align:center"}>Total</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td width='5%' Style={"text-align:center"}><span>12345</span></td>
+                                        <td width='60%' Style={"text-align:center"}><span>Factura Proex Prueba</span></td>
+                                        <td width='5%' Style={"text-align:center"}><span>1</span></td>
+                                        <td width='10%' Style={"text-align:center"}><span>$99</span></td>
+                                        <td class="tax taxrelated" Style={"text-align:center"}>$99</td>
+                                        <td class="sum" Style={"text-align:center"}>$99.00</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                   
+
+                                    </CCol>
+                                </CRow>
+
+                                <CRow Style={"margin-top:35px;"}>
+                                <CCol md="9">
+
+                                </CCol>
+
+                                    <CCol md="3">
+
+                                    <table>
+
+                                        <tr>
+                                        <td><strong>Total:</strong><CLabel Style={"font-size:30px;color:red"}>$198.00</CLabel></td>
+                                        <td id="total_price"></td>
+                                        </tr>
+
+                                    </table>
+
+                                    </CCol>
+  
+                                </CRow>
+
+                                <CRow md="6" Style={"margin-top:50px;"}>
+                                    <CCol md="12">
+                                        <footer class="row">
+                                            <div class="col-12 text-center">
+                                                <p class="notaxrelated"><b>El monto de la factura no incluye el impuesto sobre las ventas.</b></p>
+                                            
+                                            </div>
+                                        </footer>
+                                    </CCol>
+                                </CRow>
+                         
+                                </CCardBody>
+                            </CCard>
+                        </CCol>
+              
+                    </CRow>
+                </CModalBody>
+                <CModalFooter>
+                    <CButton color="info" href="javascript:window.print()">Imprimir</CButton>{' '}
+                    <CButton color="danger" onClick={() => sendEmail(item.id_Venta)}>Enviar Email</CButton>
+                </CModalFooter>
+            </CModal>
+            {/* Modal Generar Factura */}
+
+
             <CDataTable
                 items={ventas}
                 fields={fields}
@@ -746,6 +1054,9 @@ const VentasTodas = (props) =>{
                                 </CButton>
                                 <CButton size="sm" color="danger" className="ml-1" onClick={() => ModalEliminar(item.id_Venta)}>
                                     Eliminar Venta
+                                </CButton>
+                                <CButton size="sm" color="success" className="ml-1" onClick={() => ModalGenerarFactura(item.id_Venta)}>
+                                    Generar Factura
                                 </CButton>
                             </CCardBody>
                         </CCollapse>
