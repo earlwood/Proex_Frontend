@@ -18,7 +18,7 @@ import {
     CRow,
     CSelect,
     CTextarea,
-    CHeaderBrand
+    // CHeaderBrand
 
   } from '@coreui/react';
 import axios from 'axios';
@@ -43,34 +43,34 @@ const VentasTodas = (props) =>{
     const [errors, setErrors] = useState('');
     const [isSubmited, setIsSubmited] = useState(false);
 
-    const sendEmail = () =>{
+    // const sendEmail = () =>{
         
-        var EmailTemplate = require('email-templates').EmailTemplate;
-        var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+    //     var EmailTemplate = require('email-templates').EmailTemplate;
+    //     var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
-        // create template based sender function
-        // assumes text.{ext} and html.{ext} in template/directory
-        var sendPwdReminder = transporter.templateSender(new EmailTemplate('template/directory'), {
-            from: 'sender@example.com',
-        });
+    //     // create template based sender function
+    //     // assumes text.{ext} and html.{ext} in template/directory
+    //     var sendPwdReminder = transporter.templateSender(new EmailTemplate('template/directory'), {
+    //         from: 'sender@example.com',
+    //     });
 
-        // use template based sender to send a message
-        sendPwdReminder({
-            to: 'receiver@example.com',
-            // EmailTemplate renders html and text but no subject so we need to
-            // set it manually either here or in the defaults section of templateSender()
-            subject: 'Password reminder'
-        }, {
-            username: 'Node Mailer',
-            password: '!"\'<>&some-thing'
-        }, function(err, info){
-            if(err){
-            console.log('Error');
-            }else{
-                console.log('Password reminder sent');
-            }
-        });
-    }
+    //     // use template based sender to send a message
+    //     sendPwdReminder({
+    //         to: 'receiver@example.com',
+    //         // EmailTemplate renders html and text but no subject so we need to
+    //         // set it manually either here or in the defaults section of templateSender()
+    //         subject: 'Password reminder'
+    //     }, {
+    //         username: 'Node Mailer',
+    //         password: '!"\'<>&some-thing'
+    //     }, function(err, info){
+    //         if(err){
+    //         console.log('Error');
+    //         }else{
+    //             console.log('Password reminder sent');
+    //         }
+    //     });
+    // }
     
 
     const Add = statusList.map(Add => Add);
@@ -806,11 +806,11 @@ const VentasTodas = (props) =>{
                                     </CCol>
                                     <CCol md="6">
 
-                                    <CCol md="12">
+                                        <CCol md="12">
 
-                                        <b><CLabel>  ProEx - S.A de C.V.</CLabel></b>
-                                    
-                                    </CCol>
+                                            <b><CLabel>  ProEx - S.A de C.V.</CLabel></b>
+                                        
+                                        </CCol>
 
                                         <CCol md="12">
                                             
@@ -910,22 +910,22 @@ const VentasTodas = (props) =>{
                                 
                                     <table Style={"width:100%;border: 1px solid #ddd;"}>
                                         <thead Style={"border-bottom: 1px solid #ddd;"}>
-                                        <tr>
-                                        <th width="25%">Vendedor</th>
-                                        <th width="25%">Orden de compra </th>
-                                        <th width="20%">Enviar por</th>
-                                        <th width="30%">Términos y condiciones</th>
-                                        </tr> 
+                                            <tr>
+                                                <th width="25%">factura</th>
+                                                <th width="25%">Orden de compra </th>
+                                                <th width="20%">Enviar por</th>
+                                                <th width="30%">Términos y condiciones</th>
+                                            </tr> 
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                        <td width="25%">John Doe</td>
-                                        <td width="25%">#PO-2020 </td>
-                                        <td width="20%">DHL</td>
-                                        <td width="30%">Pago al contado</td>
-                                        </tr>
+                                            <tr>
+                                                <td width="25%">{factura.idClientes_Informacion}</td>
+                                                <td width="25%">#PO-2020 </td>
+                                                <td width="20%">DHL</td>
+                                                <td width="30%">Pago al contado</td>
+                                            </tr>
                                         </tbody>
-                                        </table>
+                                    </table>
                                    
 
                                     </CCol>
@@ -1000,8 +1000,8 @@ const VentasTodas = (props) =>{
                     </CRow>
                 </CModalBody>
                 <CModalFooter>
-                    <CButton color="info" href="javascript:window.print()">Imprimir</CButton>{' '}
-                    <CButton color="danger" onClick={() => sendEmail(item.id_Venta)}>Enviar Email</CButton>
+                    {/* <CButton color="info" href="javascript:window.print()">Imprimir</CButton>{' '} */}
+                    {/* <CButton color="danger" onClick={() => sendEmail(item.id_Venta)}>Enviar Email</CButton> */}
                 </CModalFooter>
             </CModal>
             {/* Modal Generar Factura */}
