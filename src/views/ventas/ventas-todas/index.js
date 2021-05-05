@@ -42,6 +42,7 @@ const VentasTodas = (props) =>{
     const [ store, setStore ] = useState(JSON.parse(localStorage.getItem('login')));
     const [errors, setErrors] = useState('');
     const [isSubmited, setIsSubmited] = useState(false);
+    const [rate, setRate] = useState(0);
 
     // const sendEmail = () =>{
         
@@ -100,9 +101,10 @@ const VentasTodas = (props) =>{
     
     const getRate = (rate) => {
         if(rate > 0){
+            setRate(rate)
             setVentaForm(preVentaForm =>({
                 ...preVentaForm,
-                'Total_RW': parseFloat(rate).toFixed(2),
+                // 'Total_RW': parseFloat(rate).toFixed(2),
                 'Total': preVentaForm.Total_Vol_W !== '' 
                             ? parseFloat(parseFloat(preVentaForm.Total_Vol_W) + parseFloat(rate)).toFixed(2).toString() 
                             : ''
@@ -278,6 +280,25 @@ const VentasTodas = (props) =>{
         }
 
         if(name === 'Real_Weight'){
+
+            if(ventaForm.Real_Weight === ''){
+                setVentaForm(preVentaForm =>({
+                    ...preVentaForm,
+                    'Vol_Weight': '',
+                    'Total_Weight': '',
+                    'Total_RW': '',
+                    'Total_Vol_W': '',
+                    'Total': '',
+                    'Paid': '',
+                    'Internal_Cost_Percentage': '',
+                    'Cost_x_Lb': '',
+                    'Total_Cost': '',
+                    'Revenue': '',
+                    'Percentage': '',
+                    'Notes': '',
+                    'Estatus': 0
+                }))
+            }
             
             setVentaForm(preVentaForm =>({
                 ...preVentaForm,
@@ -289,7 +310,8 @@ const VentasTodas = (props) =>{
                                         ? parseFloat(parseFloat(preVentaForm.Vol_Weight) + parseFloat(value, 10)).toFixed(2)
                                         : value === '' && preVentaForm.Vol_Weight !== ''
                                             ? parseFloat(preVentaForm.Vol_Weight)
-                                            : ''
+                                            : '',
+                'Total_RW': parseFloat(value * rate).toFixed(2)
             }));
         }
 

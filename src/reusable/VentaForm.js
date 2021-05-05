@@ -31,12 +31,13 @@ import {
     const Add = statusList.map(Add => Add);
     const [errors, setErrors] = useState('');
     const [isSubmited, setIsSubmited] = useState(false);
+    const [rate, setRate] = useState(0);
 
     const getRate = (rate) => {
         if(rate > 0){
+            setRate(rate);
             setVentaForm(preVentaForm =>({
                 ...preVentaForm,
-                'Total_RW': parseFloat(rate).toFixed(2),
                 'Total': preVentaForm.Total_Vol_W !== '' 
                             ? parseFloat(parseFloat(preVentaForm.Total_Vol_W) + parseFloat(rate)).toFixed(2).toString() 
                             : ''
@@ -165,6 +166,24 @@ import {
 
         if(name === 'Real_Weight'){
             
+            if(ventaForm.Real_Weight === ''){
+                setVentaForm(preVentaForm =>({
+                    ...preVentaForm,
+                    'Vol_Weight': '',
+                    'Total_Weight': '',
+                    'Total_RW': '',
+                    'Total_Vol_W': '',
+                    'Total': '',
+                    'Paid': '',
+                    'Internal_Cost_Percentage': '',
+                    'Cost_x_Lb': '',
+                    'Total_Cost': '',
+                    'Revenue': '',
+                    'Percentage': '',
+                    'Notes': '',
+                    'Estatus': 0
+                }))
+            }
             setVentaForm(preVentaForm =>({
                 ...preVentaForm,
                 'Total_Weight': preVentaForm.Vol_Weight === '' || value === ''
@@ -175,7 +194,8 @@ import {
                                         ? parseFloat(parseFloat(preVentaForm.Vol_Weight) + parseFloat(value, 10)).toFixed(2)
                                         : value === '' && preVentaForm.Vol_Weight !== ''
                                             ? parseFloat(preVentaForm.Vol_Weight)
-                                            : ''
+                                            : '',
+                'Total_RW': parseFloat(value * rate).toFixed(2)
             }));
         }
 
@@ -192,6 +212,15 @@ import {
                                         : value === '' && preVentaForm.Real_Weight !== ''
                                             ? parseFloat(preVentaForm.Real_Weight)
                                             : ''
+            }));
+        }
+
+        if(name === 'Total_RW'){
+            setVentaForm(preVentaForm =>({
+                ...preVentaForm,
+                'Total': value === '' 
+                         ? ''
+                         : parseFloat(parseFloat(preVentaForm.Total_RW) + parseFloat(preVentaForm.Total_Vol_W)).toFixed(2).toString()
             }));
         }
         
