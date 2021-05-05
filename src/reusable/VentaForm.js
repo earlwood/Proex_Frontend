@@ -148,10 +148,13 @@ import {
                 'Real_Weight': '',
                 'Vol_Weight': '',
                 'Total_Weight': '',
+                'Total_RW': '',
                 'Total_Vol_W': '',
+                'Total': '',
                 'Paid': '',
                 'Internal_Cost_Percentage': '',
                 'Cost_x_Lb': '',
+                'Total_Cost': '',
                 'Revenue': '',
                 'Percentage': '',
                 'Notes': '',
@@ -342,7 +345,7 @@ import {
                                             <CLabel htmlFor="select">Real Weigth</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput type="number" placeholder="Text" value={Real_Weight} name="Real_Weight" onChange={handleForm}/>
+                                            <CInput type="number" placeholder="Text" value={Real_Weight} name="Real_Weight" onChange={handleForm} disabled={idClientes_Informacion < 1}/>
                                             {isSubmited && Real_Weight === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -352,7 +355,7 @@ import {
                                             <CLabel htmlFor="select">Vol Weight</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput type="number" placeholder="Text" value={Vol_Weight} name="Vol_Weight" onChange={handleForm}/>
+                                            <CInput type="number" placeholder="Text" value={Vol_Weight} name="Vol_Weight" onChange={handleForm} disabled={Real_Weight.length < 1}/>
                                             {isSubmited && Vol_Weight === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -382,7 +385,7 @@ import {
                                             <CLabel htmlFor="select">Total Vol W</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput type="number" placeholder="Text" value={Total_Vol_W} name="Total_Vol_W" onChange={handleForm}/>
+                                            <CInput type="number" placeholder="Text" value={Total_Vol_W} name="Total_Vol_W" onChange={handleForm} disabled={Vol_Weight.length < 1}/>
                                             {isSubmited && Total_Vol_W === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -407,7 +410,7 @@ import {
                                             <CLabel htmlFor="dateArrival">Paid</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput type="number" placeholder="Text" value={Paid} name="Paid" onChange={handleForm}/>
+                                            <CInput type="number" placeholder="Text" value={Paid} name="Paid" onChange={handleForm} disabled={Total_Vol_W.length < 1}/>
                                             {isSubmited && Paid === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -418,7 +421,7 @@ import {
                                             <CLabel htmlFor="select">Internal Cost %</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput type="number" placeholder="Text" value={Internal_Cost_Percentage} name="Internal_Cost_Percentage" onChange={handleForm}/>
+                                            <CInput type="number" placeholder="Text" value={Internal_Cost_Percentage} name="Internal_Cost_Percentage" onChange={handleForm} />
                                         </CCol>
                                     </CFormGroup>
 
@@ -427,7 +430,7 @@ import {
                                             <CLabel htmlFor="select">Cost x Lb</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput type="number" placeholder="Text" value={Cost_x_Lb} name="Cost_x_Lb" onChange={handleForm}/>
+                                            <CInput type="number" placeholder="Text" value={Cost_x_Lb} name="Cost_x_Lb" onChange={handleForm} disabled={Paid.length < 1}/>
                                             {isSubmited && Cost_x_Lb === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>

@@ -27,8 +27,8 @@ import {useHistory} from 'react-router-dom';
 
 import VentaForm from 'src/reusable/VentaForm';
 import {configHeaders} from 'src/reusable/util';
-import logoProex from 'src/assets/icons/logo-proex_claro-horizontal.png';
-import CIcon from '@coreui/icons-react';
+// import logoProex from 'src/assets/icons/logo-proex_claro-horizontal.png';
+// import CIcon from '@coreui/icons-react';
 let statusList = ['Seleccione', 'Entregado', 'Pendiente'];
 
 const VentasTodas = (props) =>{
@@ -154,7 +154,7 @@ const VentasTodas = (props) =>{
     const [details, setDetails] = useState([]);
     const [danger, setDanger] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
-    const [modalFactura, setModalFactura] = useState(false);
+    // const [modalFactura, setModalFactura] = useState(false);
 
     // const [isValid, setIsValid] = useState(false);
     
@@ -180,24 +180,24 @@ const VentasTodas = (props) =>{
     });
 
         //State de Layout Factura
-        const [factura, setFactura] = useState({
-            Date_Arrival: '',
-            idClientes_Informacion: 0,
-            Real_Weight: '',
-            Vol_Weight: '',
-            Total_Weight: '',
-            Total_RW: '',
-            Total_Vol_W: '',
-            Total: '',
-            Paid: '',
-            Internal_Cost_Percentage: '',
-            Cost_x_Lb: '',
-            Total_Cost: '',
-            Revenue: '',
-            Percentage: '',
-            Notes: '',
-            Estatus: ''
-        });
+        // const [factura, setFactura] = useState({
+        //     Date_Arrival: '',
+        //     idClientes_Informacion: 0,
+        //     Real_Weight: '',
+        //     Vol_Weight: '',
+        //     Total_Weight: '',
+        //     Total_RW: '',
+        //     Total_Vol_W: '',
+        //     Total: '',
+        //     Paid: '',
+        //     Internal_Cost_Percentage: '',
+        //     Cost_x_Lb: '',
+        //     Total_Cost: '',
+        //     Revenue: '',
+        //     Percentage: '',
+        //     Notes: '',
+        //     Estatus: ''
+        // });
 
     ////States del Modal
     const resetForm = () =>{
@@ -222,7 +222,7 @@ const VentasTodas = (props) =>{
 
         setIsSubmited(false);
         setModalEdit(!modalEdit);
-        setModalFactura(!modalFactura);
+        // setModalFactura(!modalFactura);
 
     }
 
@@ -261,10 +261,13 @@ const VentasTodas = (props) =>{
                 'Real_Weight': '',
                 'Vol_Weight': '',
                 'Total_Weight': '',
+                'Total_RW': '',
                 'Total_Vol_W': '',
+                'Total': '',
                 'Paid': '',
                 'Internal_Cost_Percentage': '',
                 'Cost_x_Lb': '',
+                'Total_Cost': '',
                 'Revenue': '',
                 'Percentage': '',
                 'Notes': '',
@@ -532,36 +535,36 @@ const VentasTodas = (props) =>{
                 
     }
 
-    const ModalGenerarFactura = (id) =>{
-        setIdVenta(id);
+    // const ModalGenerarFactura = (id) =>{
+    //     setIdVenta(id);
         
         
-        axios.get(`${process.env.REACT_APP_BASE_URL}/selectVenta/${id}`)
-            .then((res) => {
-                setModalFactura(!modalFactura);
-                res.data[0].map((i) => {
-                    return setFactura({
-                        Date_Arrival: i.Date_Arrival.substring(0,10),
-                        idClientes_Informacion: i.idClientes_Informacion,
-                        Real_Weight: i.Real_Weight,
-                        Vol_Weight: i.Vol_Weight,
-                        Total_Weight: i.Total_Weight,
-                        Total_RW: i.Total_RW,
-                        Total_Vol_W: i.Total_Vol_W,
-                        Total: i.Total,
-                        Paid: i.Paid,
-                        Internal_Cost_Percentage: i.Internal_Cost_Percentage,
-                        Cost_x_Lb: i.Cost_x_Lb,
-                        Total_Cost: i.Total_Cost,
-                        Revenue: i.Revenue,
-                        Percentage: i.Percentage,
-                        Notes: i.Notes,
-                        Estatus: i.Estatus
-                    });
-                })
-            })
+    //     axios.get(`${process.env.REACT_APP_BASE_URL}/selectVenta/${id}`)
+    //         .then((res) => {
+    //             setModalFactura(!modalFactura);
+    //             res.data[0].map((i) => {
+    //                 return setFactura({
+    //                     Date_Arrival: i.Date_Arrival.substring(0,10),
+    //                     idClientes_Informacion: i.idClientes_Informacion,
+    //                     Real_Weight: i.Real_Weight,
+    //                     Vol_Weight: i.Vol_Weight,
+    //                     Total_Weight: i.Total_Weight,
+    //                     Total_RW: i.Total_RW,
+    //                     Total_Vol_W: i.Total_Vol_W,
+    //                     Total: i.Total,
+    //                     Paid: i.Paid,
+    //                     Internal_Cost_Percentage: i.Internal_Cost_Percentage,
+    //                     Cost_x_Lb: i.Cost_x_Lb,
+    //                     Total_Cost: i.Total_Cost,
+    //                     Revenue: i.Revenue,
+    //                     Percentage: i.Percentage,
+    //                     Notes: i.Notes,
+    //                     Estatus: i.Estatus
+    //                 });
+    //             })
+    //         })
                 
-    }
+    // }
 
     return (
         <div>    
@@ -610,7 +613,7 @@ const VentasTodas = (props) =>{
                                             <CLabel htmlFor="select">Real Weigth</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Real_Weight} name="Real_Weight" onChange={handleForm}/>
+                                            <CInput placeholder="Text" value={Real_Weight} name="Real_Weight" onChange={handleForm} disabled={idClientes_Informacion < 1}/>
                                             {isSubmited && Real_Weight === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -620,7 +623,7 @@ const VentasTodas = (props) =>{
                                             <CLabel htmlFor="select">Vol Weight</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Vol_Weight} name="Vol_Weight" onChange={handleForm}/>
+                                            <CInput placeholder="Text" value={Vol_Weight} name="Vol_Weight" onChange={handleForm} disabled={Real_Weight.length < 1}/>
                                             {isSubmited && Vol_Weight === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -648,7 +651,7 @@ const VentasTodas = (props) =>{
                                             <CLabel htmlFor="select">Total Vol W</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Total_Vol_W} name="Total_Vol_W" onChange={handleForm}/>
+                                            <CInput placeholder="Text" value={Total_Vol_W} name="Total_Vol_W" onChange={handleForm} disabled={Vol_Weight.length < 1}/>
                                             {isSubmited && Total_Vol_W === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -672,7 +675,7 @@ const VentasTodas = (props) =>{
                                             <CLabel htmlFor="dateArrival">Paid</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Paid} name="Paid" onChange={handleForm}/>
+                                            <CInput placeholder="Text" value={Paid} name="Paid" onChange={handleForm} disabled={Total_Vol_W.length < 1}/>
                                             {isSubmited && Paid === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -692,7 +695,7 @@ const VentasTodas = (props) =>{
                                             <CLabel htmlFor="select">Cost x Lb</CLabel>
                                         </CCol>
                                         <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Cost_x_Lb} name="Cost_x_Lb" onChange={handleForm}/>
+                                            <CInput placeholder="Text" value={Cost_x_Lb} name="Cost_x_Lb" onChange={handleForm} disabled={Paid.length < 1}/>
                                             {isSubmited && Cost_x_Lb === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
                                         </CCol>
                                     </CFormGroup>
@@ -788,7 +791,7 @@ const VentasTodas = (props) =>{
 
 
             {/* Modal Generar Factura */}
-            <CModal show={modalFactura} size="lg">
+            {/* <CModal show={modalFactura} size="lg">
                 <CModalHeader closeButton>
                     <CModalTitle>Factura de Venta</CModalTitle>
                 </CModalHeader>
@@ -796,9 +799,9 @@ const VentasTodas = (props) =>{
                     <CRow>
                         <CCol xs="12" sm="12">
                             <CCard>
-                                <CCardBody>
+                                <CCardBody> */}
                                 {/* Header Factura */}
-                                <CRow>
+                                {/* <CRow>
                                     <CCol md="2">
                                           
                                         <CIcon name="logo" height="75" alt="Logo" src={logoProex}/>
@@ -843,12 +846,12 @@ const VentasTodas = (props) =>{
 
                                         </CLabel>
                                      
-                                    </CCol>
+                                    </CCol> */}
                                     {/* =================== */}
 
                                     {/*Body Factura */}        
 
-                                    <CCol md="12">
+                                    {/* <CCol md="12">
                                         <hr/>
                                     </CCol>
 
@@ -896,13 +899,13 @@ const VentasTodas = (props) =>{
                                             <b>Enviar a:</b>
                                         </CLabel>
                                         
-                                    </CCol>
+                                    </CCol> */}
                           
 
                                     {/* =================== */}
 
                                                 
-                                </CRow>
+                                {/* </CRow>
 
                                 <CRow Style={"margin-top:20px;"}>
                                 <CCol md="12">
@@ -999,11 +1002,11 @@ const VentasTodas = (props) =>{
               
                     </CRow>
                 </CModalBody>
-                <CModalFooter>
+                <CModalFooter> */}
                     {/* <CButton color="info" href="javascript:window.print()">Imprimir</CButton>{' '} */}
                     {/* <CButton color="danger" onClick={() => sendEmail(item.id_Venta)}>Enviar Email</CButton> */}
-                </CModalFooter>
-            </CModal>
+                {/* </CModalFooter>
+            </CModal> */}
             {/* Modal Generar Factura */}
 
 
@@ -1055,9 +1058,9 @@ const VentasTodas = (props) =>{
                                 <CButton size="sm" color="danger" className="ml-1" onClick={() => ModalEliminar(item.id_Venta)}>
                                     Eliminar Venta
                                 </CButton>
-                                <CButton size="sm" color="success" className="ml-1" onClick={() => ModalGenerarFactura(item.id_Venta)}>
+                                {/* <CButton size="sm" color="success" className="ml-1" onClick={() => ModalGenerarFactura(item.id_Venta)}>
                                     Generar Factura
-                                </CButton>
+                                </CButton> */}
                             </CCardBody>
                         </CCollapse>
                         )
