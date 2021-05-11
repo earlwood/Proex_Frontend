@@ -269,9 +269,6 @@ const VentasTodas = (props) =>{
         const newTotRW = parseFloat(parseFloat(value * rate_xLB) + parseFloat(totrw)).toFixed(2);
         const newTotal = parseFloat(parseFloat(newTotRW) + parseFloat(ventaForm.Total_Vol_W)).toFixed(2);
 
-        console.log("revenue", reven);
-        console.log("revenue2", percent);
-
         let newVentaForm={};
 
         if(ventaForm.Total_Vol_W === ''){
@@ -397,7 +394,6 @@ const VentasTodas = (props) =>{
         }
         else{
             
-            // console.log(parseFloat(parseFloat(totCost) + parseFloat(value * rate_xVol) + parseFloat(ventaForm.Total_Vol_W)).toFixed(2));
             newVentaForm = (value === '')
             ?{
                 ...ventaForm,
@@ -528,17 +524,6 @@ const VentasTodas = (props) =>{
         }
         setVentaForm(newVentaForm);
     }
-
-    // const onTotalCost_Change = ({name, value}) => {
-    //     const newVentaForm = {
-    //         ...ventaForm,
-    //         [name]: value,
-    //         'Revenue': parseFloat(parseFloat(ventaForm.Total) - parseFloat(ventaForm.Total_Cost)).toFixed(2)
-    //     }
-    //     setVentaForm(newVentaForm);
-    // }
-
-    console.log('STATE', ventaForm);
 
     const { 
         Date_Arrival, 

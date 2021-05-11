@@ -71,7 +71,6 @@ import {
             axios.get(`${process.env.REACT_APP_BASE_URL}/getRatexLb/${clienteId}`)
             .then((res) => {
                 getRate(res.data.rateXLb, res.data.rateXVol);
-                // console.log(res.data);
             });
             
         }else{
@@ -153,14 +152,10 @@ import {
         const tot2 = parseFloat(parseFloat(totCost) + parseFloat(ventaForm.Vol_Weight * rate_xVol) + parseFloat(ventaForm.Total_Vol_W)).toFixed(2);
         const reven = parseFloat(parseFloat(tot2) - parseFloat(totCost)).toFixed(2);
         const percent = ((parseFloat((parseFloat(tot2) - parseFloat(totCost)) / parseFloat(tot2))) * 100 ).toFixed(2);
-        // const percent = parseFloat(reven/tot2);
         const totrw = parseFloat(parseFloat(ventaForm.Vol_Weight * rate_xVol)).toFixed(2);
         
         const newTotRW = parseFloat(parseFloat(value * rate_xLB) + parseFloat(totrw)).toFixed(2);
         const newTotal = parseFloat(parseFloat(newTotRW) + parseFloat(ventaForm.Total_Vol_W)).toFixed(2);
-
-        console.log("revenue", reven);
-        console.log("revenue2", percent);
 
         let newVentaForm={};
 
@@ -287,7 +282,6 @@ import {
         }
         else{
             
-            // console.log(parseFloat(parseFloat(totCost) + parseFloat(value * rate_xVol) + parseFloat(ventaForm.Total_Vol_W)).toFixed(2));
             newVentaForm = (value === '')
             ?{
                 ...ventaForm,
@@ -369,7 +363,6 @@ import {
     }
 
     const onPaid_Change = ({name, value}) =>{
-        // console.log(parseFloat(ventaForm.Total));
         
         const totCost = parseFloat(parseFloat(ventaForm.Real_Weight) * parseFloat(ventaForm.Cost_x_Lb)).toFixed(2);
         const rev = parseFloat(parseFloat(ventaForm.Total) - totCost).toFixed(2);
@@ -418,9 +411,6 @@ import {
         }
         setVentaForm(newVentaForm);
     }
-
-
-    console.log('STATE', ventaForm);
 
     const { 
         Date_Arrival, 

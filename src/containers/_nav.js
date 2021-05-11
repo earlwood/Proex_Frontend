@@ -2,7 +2,6 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 
 let store = JSON.parse(localStorage.getItem('login'));
-console.log("Store desde _Nav ",store);
 let _nav = [];
 
 if(store){
