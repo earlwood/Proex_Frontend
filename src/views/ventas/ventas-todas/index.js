@@ -82,12 +82,39 @@ const VentasTodas = (props) =>{
         .then((res) => {                            
             
             const arrVenta = res.data[0];
+            // let arrnewVenta = [];
             const newArrVenta = arrVenta.map((venta) =>{
                 
                 const newDate = venta.Date_Arrival.substring(0,10);
                 return {...venta, Date_Arrival: newDate};
             });
-            setVentas(newArrVenta);
+
+            if(store.role === 1){
+                setVentas(newArrVenta);
+            }
+            else{
+                const arrnewVentaa = newArrVenta.map( ({id_Venta, Date_Arrival, idClientes_Informacion, Cliente, Real_Weight, Vol_Weight, Total_Weight, Total_RW, 
+                    Total_Vol_W, Total, Notes, Estatus }) => { 
+                        return {
+                        id_Venta, 
+                        Date_Arrival, 
+                        idClientes_Informacion, 
+                        Cliente, 
+                        Real_Weight, 
+                        Vol_Weight, 
+                        Total_Weight, 
+                        Total_RW, 
+                        Total_Vol_W, 
+                        Total, 
+                        Notes, 
+                        Estatus
+                        }
+                    });
+                    setVentas(arrnewVentaa);
+            }
+            // 
+            // console.log(newArrVenta.id_Venta);
+            // 
         })
         .catch((err) =>{
             swal({
@@ -626,8 +653,34 @@ const VentasTodas = (props) =>{
     }
     
     
-    const fields = [
-        { key: 'Date_Arrival', _style: { width: '40%'} },
+    let fields = [];
+     if(store.role === 1){
+         fields.push({ key: 'Date_Arrival', _style: { width: '40%'} },
+         'Cliente',
+         'Real_Weight',
+         'Vol_Weight',
+         'Total_Weight',
+         'Total_RW',
+         'Total_Vol_W',
+         'Total',
+         'Paid',
+         'Internal_Cost_Percentage',
+         'Cost_x_Lb',
+         'Total_Cost',
+         'Revenue',
+         'Percentage',
+         'Notes',
+         { key: 'Estatus', _style: { width: '20%'} },
+         {
+             key: 'show_details',
+             label: '',
+             _style: { width: '1%' },
+             sorter: false,
+             filter: false
+         })
+     }
+     else{
+        fields.push({ key: 'Date_Arrival', _style: { width: '40%'} },
         'Cliente',
         'Real_Weight',
         'Vol_Weight',
@@ -635,12 +688,6 @@ const VentasTodas = (props) =>{
         'Total_RW',
         'Total_Vol_W',
         'Total',
-        'Paid',
-        'Internal_Cost_Percentage',
-        'Cost_x_Lb',
-        'Total_Cost',
-        'Revenue',
-        'Percentage',
         'Notes',
         { key: 'Estatus', _style: { width: '20%'} },
         {
@@ -649,8 +696,8 @@ const VentasTodas = (props) =>{
             _style: { width: '1%' },
             sorter: false,
             filter: false
-        }
-    ]
+        })
+     }
     
     const getBadge = (Estatus)=>{
         switch (Estatus) {
@@ -866,51 +913,110 @@ const VentasTodas = (props) =>{
                                     </CFormGroup>
 
 
-                                    <CFormGroup row>
-                                        <CCol md="3">
-                                            <CLabel htmlFor="select">Internal Cost %</CLabel>
-                                        </CCol>
-                                        <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Internal_Cost_Percentage} name="Internal_Cost_Percentage" onChange={(e) => handleForm(e)}/>
-                                        </CCol>
-                                    </CFormGroup>
+                                    {store.role === 2 
+                                        ?
+                                        <>
+                                            <CFormGroup row style={{display: 'none'}}>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Internal Cost %</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Internal_Cost_Percentage} name="Internal_Cost_Percentage" onChange={(e) => handleForm(e)} />
+                                                </CCol>
+                                            </CFormGroup>
 
-                                    <CFormGroup row>
-                                        <CCol md="3">
-                                            <CLabel htmlFor="select">Cost x Lb</CLabel>
-                                        </CCol>
-                                        <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Cost_x_Lb} name="Cost_x_Lb" onChange={(e) => handleForm(e)} disabled={Paid.length < 1}/>
-                                            {isSubmited && Cost_x_Lb === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
-                                        </CCol>
-                                    </CFormGroup>
-                                
-                                    <CFormGroup row>
-                                        <CCol md="3">
-                                            <CLabel htmlFor="select">Total Cost</CLabel>
-                                        </CCol>
-                                        <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Total_Cost} name="Total_Cost" disabled/>
-                                        </CCol>
-                                    </CFormGroup>
+                                            <CFormGroup row style={{display: 'none'}}>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Cost x Lb</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Cost_x_Lb} name="Cost_x_Lb" onChange={(e) => handleForm(e)} disabled/>
+                                                    {isSubmited && Cost_x_Lb === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
+                                                </CCol>
+                                            </CFormGroup>
+                                        
+                                            <CFormGroup row style={{display: 'none'}}>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Total Cost</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Total_Cost} name="Total_Cost"  disabled/>
+                                                    
+                                                </CCol>
+                                            </CFormGroup>
 
-                                    <CFormGroup row>
-                                        <CCol md="3">
-                                            <CLabel htmlFor="select">Revenue</CLabel>
-                                        </CCol>
-                                        <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Revenue} name="Revenue" onChange={(e) => handleForm(e)} disabled/>
-                                        </CCol>
-                                    </CFormGroup>
+                                            <CFormGroup row style={{display: 'none'}}>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Revenue</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Revenue} name="Revenue" onChange={(e) => handleForm(e)} disabled/>
+                                                    
+                                                </CCol>
+                                            </CFormGroup>
 
-                                    <CFormGroup row>
-                                        <CCol md="3">
-                                            <CLabel htmlFor="select">Percentage</CLabel>
-                                        </CCol>
-                                        <CCol xs="12" md="9">
-                                            <CInput placeholder="Text" value={Percentage} name="Percentage" onChange={(e) => handleForm(e)} disabled/>
-                                        </CCol>
-                                    </CFormGroup>
+                                            <CFormGroup row style={{display: 'none'}}>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Percentage</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Percentage} name="Percentage" onChange={(e) => handleForm(e)} disabled/>
+                                                    
+                                                </CCol>
+                                            </CFormGroup>
+                                        </>
+                                        :
+                                        <>
+                                            <CFormGroup row>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Internal Cost %</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Internal_Cost_Percentage} name="Internal_Cost_Percentage" onChange={(e) => handleForm(e)} />
+                                                </CCol>
+                                            </CFormGroup>
+
+                                            <CFormGroup row>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Cost x Lb</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Cost_x_Lb} name="Cost_x_Lb" onChange={(e) => handleForm(e)} disabled/>
+                                                    {isSubmited && Cost_x_Lb === '' && <p className="p-1 mb-1 bg-danger text-white">{errors}</p>}
+                                                </CCol>
+                                            </CFormGroup>
+                                        
+                                            <CFormGroup row>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Total Cost</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Total_Cost} name="Total_Cost"  disabled/>
+                                                    
+                                                </CCol>
+                                            </CFormGroup>
+
+                                            <CFormGroup row>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Revenue</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Revenue} name="Revenue" onChange={(e) => handleForm(e)} disabled/>
+                                                    
+                                                </CCol>
+                                            </CFormGroup>
+
+                                            <CFormGroup row>
+                                                <CCol md="3">
+                                                    <CLabel htmlFor="select">Percentage</CLabel>
+                                                </CCol>
+                                                <CCol xs="12" md="9">
+                                                    <CInput type="number" placeholder="Text" value={Percentage} name="Percentage" onChange={(e) => handleForm(e)} disabled/>
+                                                    
+                                                </CCol>
+                                            </CFormGroup>
+                                        </>
+                                    }
                                     
                                     <CFormGroup row>
                                         <CCol md="3">
